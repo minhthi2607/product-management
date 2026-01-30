@@ -9,12 +9,10 @@ public class Main {
     static ProductService productService = new ProductService();
 
     public static void main(String[] args) {
-
         while (true) {
             showMenu();
             System.out.print("Chọn chức năng : ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = readInt("Chọn chức năng : ");
 
             switch (choice) {
                 case 1:
@@ -39,13 +37,12 @@ public class Main {
                     sortByPriceDesc();
                     break;
                 case 0:
-                    System.exit(0);
-                    scanner.close();
+                    System.out.println("Thoát chương trình!");
+                    return;
+
                 default:
                     System.out.println("Lựa chọn của bạn không hợp lệ!");
             }
-
-
         }
     }
 
@@ -90,37 +87,32 @@ public class Main {
         String name = scanner.nextLine();
         double price = readDouble("Giá : ");
         int quantity = readInt("Số lượng : ");
-        System.out.print("Loại : ");
-        String category = scanner.nextLine();
-        Product product = new Product(id, name, price, quantity, category);
+        Product product = new Product(id, name, price, quantity);
 
         try {
             productService.addProduct(product);
             System.out.println("Thêm sản phẩm thành công!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 
     private static void updateProduct() {
         System.out.println("=== Sửa sản phẩm ===");
         int id = readInt("Nhập ID cần sửa : ");
+
         System.out.print("Tên mới :");
         String name = scanner.nextLine();
         double price = readDouble("Giá mới :");
         int quantity = readInt("Số lượng mới: ");
-        System.out.print("Loại mới : ");
-        String category = scanner.nextLine();
 
-        Product product = new Product(id, name, price, quantity, category);
+        Product product = new Product(id, name, price, quantity);
 
         try {
             productService.updateProduct(id, product);
             System.out.println("Cập nhật sản phẩm thành công!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -133,7 +125,7 @@ public class Main {
             System.out.println(" Xóa sản phẩm thành công! ");
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
+
         }
 
     }
@@ -155,7 +147,7 @@ public class Main {
         String name = scanner.nextLine();
         List<Product> result = productService.searchByName(name);
         if (result.isEmpty()) {
-            System.out.print("Không tìm thấy sản phẩm");
+            System.out.print("Không tìm thấy sản phẩm!");
             return;
         }
         result.forEach(System.out::println);

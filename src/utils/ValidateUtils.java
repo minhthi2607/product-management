@@ -17,4 +17,6 @@ public class ValidateUtils {
     public static boolean isValidQuantity(int quantity){
         return quantity >= 0;
     }
+
+
 }
