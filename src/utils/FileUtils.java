@@ -8,10 +8,11 @@ import java.util.List;
 
 public class FileUtils {
     private static final String FILE_PATH = "products.dat";
+    private static final String FILE_CSV = "products.csv";
 
     public static void writeToFile(List<Product> products) {
         try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream("products.dat"))) {
+                     new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
 
             oos.writeObject(products);
         } catch (IOException e) {
@@ -33,6 +34,30 @@ public class FileUtils {
             System.out.println("Lỗi đọc file!");
             return new ArrayList<>();
 
+        }
+    }
+
+    public static void writeToCSV(List<Product> products) {
+        if (products == null || products.isEmpty()) {
+            System.out.println("Danh sách sản phẩm trống, không có gì để xuất!");
+            return;
+        }
+        try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_CSV))) {
+            writer.println("ID,Name,Price,Quantity");
+
+            for (Product p : products) {
+                writer.printf(
+                        "%d,%s,%.2f,%d%n",
+                        p.getId(),
+                        p.getName(),
+                        p.getPrice(),
+                        p.getQuantity()
+                );
+            }
+
+            System.out.println("Xuất file CSV thành công!");
+        } catch (IOException e) {
+            System.out.println("Lỗi khi ghi file CSV");
         }
     }
 }

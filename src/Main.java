@@ -1,5 +1,6 @@
 import model.Product;
 import service.ProductService;
+import utils.FileUtils;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +12,6 @@ public class Main {
     public static void main(String[] args) {
         while (true) {
             showMenu();
-            System.out.print("Chọn chức năng : ");
             int choice = readInt("Chọn chức năng : ");
 
             switch (choice) {
@@ -36,6 +36,10 @@ public class Main {
                 case 7:
                     sortByPriceDesc();
                     break;
+                case 8:
+                    FileUtils.writeToCSV(productService.getProducts());
+                    break;
+
                 case 0:
                     System.out.println("Thoát chương trình!");
                     return;
@@ -55,6 +59,7 @@ public class Main {
         System.out.println("5. Tìm kiếm theo tên");
         System.out.println("6. Sắp xếp theo giá tăng dần");
         System.out.println("7. Sắp xếp theo giá giảm dần");
+        System.out.println("8. Xuất ra file excel");
         System.out.println("0. Thoát");
     }
 
